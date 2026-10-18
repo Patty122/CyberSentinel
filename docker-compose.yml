@@ -1,0 +1,13 @@
+services:
+  backend:
+    build: .
+    environment:
+      FRONTEND_ORIGIN: http://localhost:8080
+    volumes:
+      - ./models:/srv/models:ro
+      - ./reports:/srv/reports:ro
+      - ./data:/srv/data:ro
+  frontend:
+    build: ./frontend
+    ports: ["8080:80"]
+    depends_on: [backend]
