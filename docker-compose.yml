@@ -1,0 +1,15 @@
+# Run training on the host first (python -m ml.train) so models/ exists, then: docker compose up --build
+services:
+  backend:
+    build: .
+    environment:
+      CORS_ORIGINS: http://localhost:8080
+    volumes:
+      - ./data/raw:/app/data/raw:ro
+      - ./models:/app/models:ro
+      - ./reports:/app/reports:ro
+    expose: ["5000"]
+  frontend:
+    build: ./frontend
+    ports: ["8080:80"]
+    depends_on: [backend]

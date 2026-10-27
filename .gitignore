@@ -1,0 +1,29 @@
+# Dataset (large, licensed by Kaggle/ULB: download manually, never commit)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+*.csv
+# Trained artifacts are regenerated with `python -m ml.train`
+models/*
+!models/.gitkeep
+# Secrets and environment
+.env
+.env.*
+!.env.example
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+# Node
+node_modules/
+frontend/dist/
+# Logs / OS / editor
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
