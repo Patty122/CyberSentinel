@@ -56,8 +56,7 @@ export default function Analyze() {
     setResult(null);
     try {
       const payload = toPayload(values);
-      const modelResponse = await models.refetch?.();
-      const modelData = modelResponse?.data ?? models.data;
+      const modelData = models.data;
       const listed = modelData?.models;
       const modelNames = Array.isArray(listed)
         ? listed.filter((m) => m.name !== "dummy").map((m) => m.name)
