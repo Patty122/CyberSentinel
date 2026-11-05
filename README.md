@@ -79,16 +79,22 @@ Docker (optional, unverified): train on the host, then `docker compose up --buil
 
 Class imbalance: class weighting, threshold tuning and training-only under-sampling are compared in `reports/imbalance_experiment.md` (Logistic Regression). Feature selection: importance rankings are reported (`feature_importance` in `models/metrics.json`); all features are kept because V1–V28 are already PCA components and no removal was validated.
 
-## Results of the run documented here (test set, 95 frauds)
-| Model | Precision | Recall | F1 | PR-AUC | ROC-AUC | FP | FN |
-|---|---|---|---|---|---|---|---|
-| Dummy | 0.000 | 0.000 | 0.000 | 0.002 | 0.500 | 0 | 95 |
-| Logistic Regression | 0.791 | 0.758 | 0.774 | 0.685 | 0.957 | 19 | 23 |
-| **Random Forest (selected)** | 0.890 | 0.768 | 0.825 | 0.783 | 0.963 | 9 | 22 |
-| XGBoost | 0.920 | 0.726 | 0.812 | 0.778 | 0.932 | 6 | 26 |
-| Isolation Forest | 0.160 | 0.463 | 0.238 | 0.166 | 0.943 | 231 | 51 |
+## Current model selection and results
 
-With 95 test frauds, Random Forest and XGBoost are not meaningfully different. See `docs/model_card.md` for interpretation. Your own run may differ slightly.
+**Selected model in the current application run: XGBoost.** This reflects the current dashboard/run confirmed by the project owner. The training code selects the winner dynamically, rather than hard-coding XGBoost. The selection rule is the highest validation PR-AUC (average precision, rounded to four decimal places), with validation F1 as the tie-breaker. The held-out test set is not used for model selection.
+
+The numeric results table from an earlier run identified Random Forest as selected and does not represent the current XGBoost run. Those old figures have been removed rather than relabelled. The current generated `models/metrics.json` was not included in the supplied project archive, so current XGBoost metric values cannot be verified here.
+
+| Current run field | Value |
+|---|---|
+| Selected model | **XGBoost** |
+| Selection criterion | Highest validation PR-AUC; validation F1 breaks ties |
+| XGBoost test precision, recall and F1 | Update from current `models/metrics.json` |
+| XGBoost test PR-AUC and ROC-AUC | Update from current `models/metrics.json` |
+| XGBoost decision threshold | Update from current `models/metrics.json` |
+| Test confusion matrix (TN, FP, FN, TP) | Update from current `models/metrics.json` |
+
+Do not substitute older Random Forest or XGBoost scores for the current-run results.
 
 ## Metrics glossary
 Precision = TP/(TP+FP). Recall = TP/(TP+FN). F1 = harmonic mean. PR-AUC = average precision (scikit-learn `average_precision_score`); its chance level equals prevalence (~0.0017). ROC-AUC can look excellent even when precision is poor. FPR = FP/(FP+TN), FNR = FN/(FN+TP). TP fraud caught · TN legitimate passed · FP false alarm · FN missed fraud.
