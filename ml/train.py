@@ -7,6 +7,7 @@ Run from the project root (training is a separate command from serving):
 Order of operations (no test-set leakage):
  1. Remove exact duplicate rows, then a stratified 60/20/20 train/validation/test split.
  2. Hyper-parameter search: stratified 3-fold CV on TRAIN only (LR, RF, XGBoost);
+ 
     Isolation Forest is tuned on validation average precision (labels used only to score, never to fit).
  3. Fit final models on TRAIN only.
  4. Choose each decision threshold and the best model on VALIDATION only.
